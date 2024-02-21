@@ -2,12 +2,16 @@
 - Alan
 - Lucas
 - Luiz
+- João
 
 # Banco de Dados - PostgreSql
-- servidor: silly.db.elephantsql.com
-- user: saiprgpc
-- database: saiprgpc
-- password: v2fTYNtJuM4tmI8r72ao5z4HfkbWLkhF
+- servidor: 34.39.136.87 (dinâmico, pode mudar)
+- user: postgres
+- database: ReservaNoteA
+- password: postgres
+
+string de conexão:
+- postgresql://postgres:postgres@34.39.136.87:5432/ReservaNoteA
 
 # Análise de Requisitos
 https://docs.google.com/document/d/1oAmUQkS4fiwCj51JAkyeAquGPllwZdqgOJSgXFGPqZQ/edit?pli=1#heading=h.a5pynizrue3
