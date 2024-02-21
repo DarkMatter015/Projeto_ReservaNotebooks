@@ -10,9 +10,6 @@
 - database: ReservaNoteA
 - password: postgres
 
-string de conexão:
-- postgresql://postgres:postgres@34.39.136.87:5432/ReservaNoteA
-
 # Análise de Requisitos
 https://docs.google.com/document/d/1oAmUQkS4fiwCj51JAkyeAquGPllwZdqgOJSgXFGPqZQ/edit?pli=1#heading=h.a5pynizrue3
 
