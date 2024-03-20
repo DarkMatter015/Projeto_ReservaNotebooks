@@ -1,10 +1,9 @@
 package reserva.notes.notes.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.List;
 
 @Entity
 public class ModelCategoria {
@@ -19,6 +18,17 @@ public class ModelCategoria {
     private int prioridade;
 
     private int quantidade;
+
+    @OneToMany(mappedBy = "categoria")
+    private List<ModelNotebooks> notebooks;
+
+    public List<ModelNotebooks> getNotebooks() {
+        return notebooks;
+    }
+
+    public void setNotebooks(List<ModelNotebooks> notebooks) {
+        this.notebooks = notebooks;
+    }
 
     public long getId() {
         return id;
