@@ -66,7 +66,8 @@ CREATE TABLE public.agendamentos (
     hora_retirada timestamp without time zone,
     hora_devolvida timestamp without time zone,
     turno integer,
-    devolvido boolean
+    datahora_criacao timestamp without time zone DEFAULT now(),
+    status smallint
 );
 
 
@@ -95,48 +96,14 @@ ALTER SEQUENCE public.agendamentos_id_seq OWNED BY public.agendamentos.id;
 
 
 --
--- Name: cargo; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.cargo (
-    id integer NOT NULL,
-    nome character varying(255),
-    "nível" integer
-);
-
-
-ALTER TABLE public.cargo OWNER TO postgres;
-
---
--- Name: cargo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.cargo_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.cargo_id_seq OWNER TO postgres;
-
---
--- Name: cargo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.cargo_id_seq OWNED BY public.cargo.id;
-
-
---
 -- Name: categoria; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.categoria (
     id integer NOT NULL,
     nome character varying(255),
-    prioridade integer
+    prioridade integer,
+    quantidade smallint
 );
 
 
@@ -201,12 +168,72 @@ ALTER SEQUENCE public.notebooks_id_seq OWNED BY public.notebooks.id;
 
 
 --
+-- Name: noticacoes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.noticacoes (
+    id integer NOT NULL,
+    id_usuario integer NOT NULL,
+    texto character varying(500),
+    link character varying(500),
+    data_hora time without time zone DEFAULT now(),
+    lida boolean
+);
+
+
+ALTER TABLE public.noticacoes OWNER TO postgres;
+
+--
+-- Name: noticacoes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.noticacoes_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.noticacoes_id_seq OWNER TO postgres;
+
+--
+-- Name: noticacoes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.noticacoes_id_seq OWNED BY public.noticacoes.id;
+
+
+--
+-- Name: noticacoes_id_usuario_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.noticacoes_id_usuario_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.noticacoes_id_usuario_seq OWNER TO postgres;
+
+--
+-- Name: noticacoes_id_usuario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.noticacoes_id_usuario_seq OWNED BY public.noticacoes.id_usuario;
+
+
+--
 -- Name: usuario; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.usuario (
     id integer NOT NULL,
-    id_cargo bigint,
+    nivel smallint,
     nome character varying(255),
     n_identificacao bigint,
     senha character varying(64),
@@ -253,13 +280,6 @@ ALTER TABLE ONLY public.agendamentos ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
--- Name: cargo id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.cargo ALTER COLUMN id SET DEFAULT nextval('public.cargo_id_seq'::regclass);
-
-
---
 -- Name: categoria id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -271,6 +291,20 @@ ALTER TABLE ONLY public.categoria ALTER COLUMN id SET DEFAULT nextval('public.ca
 --
 
 ALTER TABLE ONLY public.notebooks ALTER COLUMN id SET DEFAULT nextval('public.notebooks_id_seq'::regclass);
+
+
+--
+-- Name: noticacoes id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.noticacoes ALTER COLUMN id SET DEFAULT nextval('public.noticacoes_id_seq'::regclass);
+
+
+--
+-- Name: noticacoes id_usuario; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.noticacoes ALTER COLUMN id_usuario SET DEFAULT nextval('public.noticacoes_id_usuario_seq'::regclass);
 
 
 --
@@ -292,15 +326,7 @@ COPY public.agendamento_note (id, id_agendamento, id_notebook) FROM stdin;
 -- Data for Name: agendamentos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.agendamentos (id, id_usuario, data_agendada, hora_retirada, hora_devolvida, turno, devolvido) FROM stdin;
-\.
-
-
---
--- Data for Name: cargo; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.cargo (id, nome, "nível") FROM stdin;
+COPY public.agendamentos (id, id_usuario, data_agendada, hora_retirada, hora_devolvida, turno, datahora_criacao, status) FROM stdin;
 \.
 
 
@@ -308,7 +334,7 @@ COPY public.cargo (id, nome, "nível") FROM stdin;
 -- Data for Name: categoria; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.categoria (id, nome, prioridade) FROM stdin;
+COPY public.categoria (id, nome, prioridade, quantidade) FROM stdin;
 \.
 
 
@@ -321,10 +347,18 @@ COPY public.notebooks (id, numero, patrimonio, id_categoria) FROM stdin;
 
 
 --
+-- Data for Name: noticacoes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.noticacoes (id, id_usuario, texto, link, data_hora, lida) FROM stdin;
+\.
+
+
+--
 -- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.usuario (id, id_cargo, nome, n_identificacao, senha, email) FROM stdin;
+COPY public.usuario (id, nivel, nome, n_identificacao, senha, email) FROM stdin;
 \.
 
 
@@ -343,13 +377,6 @@ SELECT pg_catalog.setval('public.agendamentos_id_seq', 1, false);
 
 
 --
--- Name: cargo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.cargo_id_seq', 1, false);
-
-
---
 -- Name: categoria_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -361,6 +388,20 @@ SELECT pg_catalog.setval('public.categoria_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.notebooks_id_seq', 1, false);
+
+
+--
+-- Name: noticacoes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.noticacoes_id_seq', 1, false);
+
+
+--
+-- Name: noticacoes_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.noticacoes_id_usuario_seq', 1, false);
 
 
 --
@@ -387,14 +428,6 @@ ALTER TABLE ONLY public.agendamentos
 
 
 --
--- Name: cargo cargo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.cargo
-    ADD CONSTRAINT cargo_pkey PRIMARY KEY (id);
-
-
---
 -- Name: categoria categoria_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -411,11 +444,27 @@ ALTER TABLE ONLY public.notebooks
 
 
 --
+-- Name: noticacoes noticacoes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.noticacoes
+    ADD CONSTRAINT noticacoes_pkey PRIMARY KEY (id_usuario);
+
+
+--
 -- Name: usuario usuario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.usuario
     ADD CONSTRAINT usuario_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agendamento_note fk_agenda; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.agendamento_note
+    ADD CONSTRAINT fk_agenda FOREIGN KEY (id_agendamento) REFERENCES public.agendamentos(id) NOT VALID;
 
 
 --
@@ -427,11 +476,27 @@ ALTER TABLE ONLY public.agendamento_note
 
 
 --
+-- Name: agendamentos fk_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.agendamentos
+    ADD CONSTRAINT fk_usuario FOREIGN KEY (id_usuario) REFERENCES public.usuario(id) NOT VALID;
+
+
+--
 -- Name: notebooks notebooks_id_categoria_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.notebooks
     ADD CONSTRAINT notebooks_id_categoria_fkey FOREIGN KEY (id_categoria) REFERENCES public.categoria(id) NOT VALID;
+
+
+--
+-- Name: noticacoes noticacoes_id_usuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.noticacoes
+    ADD CONSTRAINT noticacoes_id_usuario_fkey FOREIGN KEY (id_usuario) REFERENCES public.usuario(id) NOT VALID;
 
 
 --
