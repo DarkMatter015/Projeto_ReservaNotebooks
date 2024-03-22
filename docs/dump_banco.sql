@@ -31,7 +31,6 @@ CREATE TABLE public.agendamento_note (
 );
 
 
-ALTER TABLE public.agendamento_note OWNER TO postgres;
 
 --
 -- Name: agendamento_note_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -46,7 +45,6 @@ CREATE SEQUENCE public.agendamento_note_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.agendamento_note_id_seq OWNER TO postgres;
 
 --
 -- Name: agendamento_note_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -71,7 +69,6 @@ CREATE TABLE public.agendamentos (
 );
 
 
-ALTER TABLE public.agendamentos OWNER TO postgres;
 
 --
 -- Name: agendamentos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -86,7 +83,6 @@ CREATE SEQUENCE public.agendamentos_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.agendamentos_id_seq OWNER TO postgres;
 
 --
 -- Name: agendamentos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -107,7 +103,6 @@ CREATE TABLE public.categoria (
 );
 
 
-ALTER TABLE public.categoria OWNER TO postgres;
 
 --
 -- Name: categoria_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -122,7 +117,6 @@ CREATE SEQUENCE public.categoria_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.categoria_id_seq OWNER TO postgres;
 
 --
 -- Name: categoria_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -143,7 +137,6 @@ CREATE TABLE public.notebooks (
 );
 
 
-ALTER TABLE public.notebooks OWNER TO postgres;
 
 --
 -- Name: notebooks_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -158,7 +151,6 @@ CREATE SEQUENCE public.notebooks_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.notebooks_id_seq OWNER TO postgres;
 
 --
 -- Name: notebooks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -181,7 +173,6 @@ CREATE TABLE public.noticacoes (
 );
 
 
-ALTER TABLE public.noticacoes OWNER TO postgres;
 
 --
 -- Name: noticacoes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -196,7 +187,6 @@ CREATE SEQUENCE public.noticacoes_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.noticacoes_id_seq OWNER TO postgres;
 
 --
 -- Name: noticacoes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -218,7 +208,6 @@ CREATE SEQUENCE public.noticacoes_id_usuario_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.noticacoes_id_usuario_seq OWNER TO postgres;
 
 --
 -- Name: noticacoes_id_usuario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -241,7 +230,6 @@ CREATE TABLE public.usuario (
 );
 
 
-ALTER TABLE public.usuario OWNER TO postgres;
 
 --
 -- Name: usuario_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -256,7 +244,6 @@ CREATE SEQUENCE public.usuario_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.usuario_id_seq OWNER TO postgres;
 
 --
 -- Name: usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -314,57 +301,6 @@ ALTER TABLE ONLY public.noticacoes ALTER COLUMN id_usuario SET DEFAULT nextval('
 ALTER TABLE ONLY public.usuario ALTER COLUMN id SET DEFAULT nextval('public.usuario_id_seq'::regclass);
 
 
---
--- Data for Name: agendamento_note; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.agendamento_note (id, id_agendamento, id_notebook) FROM stdin;
-\.
-
-
---
--- Data for Name: agendamentos; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.agendamentos (id, id_usuario, data_agendada, hora_retirada, hora_devolvida, turno, datahora_criacao, status) FROM stdin;
-\.
-
-
---
--- Data for Name: categoria; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.categoria (id, nome, prioridade, quantidade) FROM stdin;
-\.
-
-
---
--- Data for Name: notebooks; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.notebooks (id, numero, patrimonio, id_categoria) FROM stdin;
-\.
-
-
---
--- Data for Name: noticacoes; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.noticacoes (id, id_usuario, texto, link, data_hora, lida) FROM stdin;
-\.
-
-
---
--- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.usuario (id, nivel, nome, n_identificacao, senha, email) FROM stdin;
-\.
-
-
---
--- Name: agendamento_note_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
 
 SELECT pg_catalog.setval('public.agendamento_note_id_seq', 1, false);
 
