@@ -3,6 +3,7 @@ package reserva.notes.notes.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "notebooks")
 public class ModelNotebooks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,8 +13,7 @@ public class ModelNotebooks {
 
     private int patrimonio;
 
-    @ManyToOne
-    private ModelCategoria categoria;
+    private long id_categoria;
 
     public long getId() {
         return id;
@@ -39,11 +39,11 @@ public class ModelNotebooks {
         this.patrimonio = patrimonio;
     }
 
-    public ModelCategoria getCategoria() {
-        return categoria;
+    public long getId_categoria() {
+        return id_categoria;
     }
 
-    public void setCategoria(ModelCategoria categoria) {
-        this.categoria = categoria;
+    public void setId_categoria(long id_categoria) {
+        this.id_categoria = id_categoria;
     }
 }

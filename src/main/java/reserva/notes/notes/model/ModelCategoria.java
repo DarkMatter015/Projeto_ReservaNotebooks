@@ -20,17 +20,6 @@ public class ModelCategoria {
 
     private int quantidade;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<ModelNotebooks> notebooks;
-
-    public List<ModelNotebooks> getNotebooks() {
-        return notebooks;
-    }
-
-    public void setNotebooks(List<ModelNotebooks> notebooks) {
-        this.notebooks = notebooks;
-    }
-
     public long getId() {
         return id;
     }
