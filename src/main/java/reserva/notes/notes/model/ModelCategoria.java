@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
-@Table(name = "categoria")
+@Table(name = "Categoria")
 public class ModelCategoria {
 
     @Id
