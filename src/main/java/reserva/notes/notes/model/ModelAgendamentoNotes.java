@@ -7,32 +7,32 @@ import jakarta.persistence.*;
 public class ModelAgendamentoNotes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private int id_agendamento;
-    private int id_notebook;
+    private Long id_agendamento;
+    private Long id_notebook;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getId_agendamento() {
+    public Long getId_agendamento() {
         return id_agendamento;
     }
 
-    public void setId_agendamento(int id_agendamento) {
+    public void setId_agendamento(Long id_agendamento) {
         this.id_agendamento = id_agendamento;
     }
 
-    public int getId_notebook() {
+    public Long getId_notebook() {
         return id_notebook;
     }
 
-    public void setId_notebook(int id_notebook) {
+    public void setId_notebook(Long id_notebook) {
         this.id_notebook = id_notebook;
     }
 }

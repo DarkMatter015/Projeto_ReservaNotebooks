@@ -13,7 +13,7 @@ public class ModelNotebooks {
 
     private int patrimonio;
 
-    private long id_categoria;
+    private Long id_categoria;
 
     public long getId() {
         return id;
@@ -39,11 +39,11 @@ public class ModelNotebooks {
         this.patrimonio = patrimonio;
     }
 
-    public long getId_categoria() {
+    public Long getId_categoria() {
         return id_categoria;
     }
 
-    public void setId_categoria(long id_categoria) {
+    public void setId_categoria(Long id_categoria) {
         this.id_categoria = id_categoria;
     }
 }

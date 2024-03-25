@@ -3,15 +3,13 @@ package reserva.notes.notes.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-import java.util.List;
-
 @Entity
 @Table(name = "Categoria")
 public class ModelCategoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotBlank(message = "Nome da categoria não pode ser em branco!")
     private String nome;
@@ -20,11 +18,11 @@ public class ModelCategoria {
 
     private int quantidade;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -10,6 +10,10 @@ public class ModelLogin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int matricula;
+    private String nome;
+    private int nivel;
+    private String email;
+    private String senha;
 
     public String getNome() {
         return nome;
@@ -34,11 +38,6 @@ public class ModelLogin {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    private String nome;
-    private int nivel;
-    private String email;
-    private String senha;
 
     public Long getId() {
         return id;
