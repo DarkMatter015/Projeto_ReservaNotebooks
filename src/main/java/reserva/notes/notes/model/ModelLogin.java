@@ -1,15 +1,43 @@
 package reserva.notes.notes.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "Usuario")
 public class ModelLogin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String matricula;
+    private int matricula;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNssome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private String nome;
+    private int nivel;
+    private String email;
     private String senha;
 
     public Long getId() {
@@ -20,11 +48,11 @@ public class ModelLogin {
         this.id = id;
     }
 
-    public String getMatricula() {
+    public int getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(String matricula) {
+    public void setMatricula(int matricula) {
         this.matricula = matricula;
     }
 
