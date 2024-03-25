@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
+@Table(name = "categoria")
 public class ModelCategoria {
 
     @Id
@@ -18,17 +19,6 @@ public class ModelCategoria {
     private int prioridade;
 
     private int quantidade;
-
-    @OneToMany(mappedBy = "categoria")
-    private List<ModelNotebooks> notebooks;
-
-    public List<ModelNotebooks> getNotebooks() {
-        return notebooks;
-    }
-
-    public void setNotebooks(List<ModelNotebooks> notebooks) {
-        this.notebooks = notebooks;
-    }
 
     public long getId() {
         return id;
