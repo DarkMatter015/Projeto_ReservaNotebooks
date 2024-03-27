@@ -3,7 +3,7 @@ package reserva.notes.notes.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Usuario")
+@Table(name = "usuario")
 public class ModelLogin {
 
     @Id

@@ -7,13 +7,13 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Agendamentos")
+@Table(name = "agendamento")
 public class ModelAgendamentos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long id_usuario;
+    private Long usuario_id;
 
     private Date data_agendada;
 
@@ -43,12 +43,12 @@ public class ModelAgendamentos {
         this.id = id;
     }
 
-    public Long getId_usuario() {
-        return id_usuario;
+    public Long getUsuario_id() {
+        return usuario_id;
     }
 
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setUsuario_id(Long usuario_id) {
+        this.usuario_id = usuario_id;
     }
 
     public Date getData_agendada() {

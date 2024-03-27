@@ -1,441 +1,52 @@
---
--- PostgreSQL database dump
---
+-- Sistema de Agendamento de Notebooks
+-- Definição do banco de dados
 
--- Dumped from database version 16.2 (Ubuntu 16.2-1.pgdg20.04+1)
--- Dumped by pg_dump version 16.1
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
-SET default_tablespace = '';
-
-SET default_table_access_method = heap;
-
---
--- Name: agendamento_note; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.agendamento_note (
-    id integer NOT NULL,
-    id_agendamento bigint,
-    id_notebook bigint
+CREATE TABLE usuario (
+    id bigserial PRIMARY KEY,
+    nivel integer,
+    nome varchar(100) NOT NULL,
+    matricula integer,
+    senha varchar(255),
+    email varchar(255)
 );
 
-
-
---
--- Name: agendamento_note_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.agendamento_note_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
---
--- Name: agendamento_note_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.agendamento_note_id_seq OWNED BY public.agendamento_note.id;
-
-
---
--- Name: agendamentos; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.agendamentos (
-    id integer NOT NULL,
-    id_usuario bigint,
-    data_agendada date,
-    hora_retirada timestamp without time zone,
-    hora_devolvida timestamp without time zone,
-    turno integer,
-    datahora_criacao timestamp without time zone DEFAULT now(),
-    status smallint
-);
-
-
-
---
--- Name: agendamentos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.agendamentos_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
---
--- Name: agendamentos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.agendamentos_id_seq OWNED BY public.agendamentos.id;
-
-
---
--- Name: categoria; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.categoria (
-    id integer NOT NULL,
-    nome character varying(255),
+CREATE TABLE categoria (
+    id bigserial PRIMARY KEY,
+    nome varchar(50) NOT NULL,
+	softwares varchar(1000),
     prioridade integer,
-    quantidade smallint
+    quantidade integer
 );
 
-
-
---
--- Name: categoria_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.categoria_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
---
--- Name: categoria_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.categoria_id_seq OWNED BY public.categoria.id;
-
-
---
--- Name: notebooks; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.notebooks (
-    id integer NOT NULL,
-    numero bigint,
+CREATE TABLE notebook (
+    id bigserial PRIMARY KEY,
+    numero integer,
     patrimonio bigint,
-    id_categoria bigint
+    categoria_id bigint not null references categoria
 );
 
+CREATE TABLE agendamento (
+    id bigserial PRIMARY KEY,
+    usuario_id bigint not null references usuario,
+    data_agendada date,
+    hora_retirada timestamp,
+    hora_devolvida timestamp,
+    turno integer,
+    datahora_criacao timestamp DEFAULT now(),
+    status integer
+);
 
+CREATE TABLE agendamento_note (
+    id bigserial PRIMARY KEY,
+    agendamento_id bigint not null references agendamento,
+    notebook_id bigint not null references notebook
+);
 
---
--- Name: notebooks_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.notebooks_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
---
--- Name: notebooks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.notebooks_id_seq OWNED BY public.notebooks.id;
-
-
---
--- Name: noticacoes; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.noticacoes (
-    id integer NOT NULL,
-    id_usuario integer NOT NULL,
-    texto character varying(500),
-    link character varying(500),
-    data_hora time without time zone DEFAULT now(),
+CREATE TABLE notificacao (
+    id bigserial PRIMARY KEY,
+    usuario_id bigint NOT NULL,
+    texto varchar(500) NOT NULL,
+    link varchar(500),
+    data_hora timestamp DEFAULT now(),
     lida boolean
 );
-
-
-
---
--- Name: noticacoes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.noticacoes_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
---
--- Name: noticacoes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.noticacoes_id_seq OWNED BY public.noticacoes.id;
-
-
---
--- Name: noticacoes_id_usuario_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.noticacoes_id_usuario_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
---
--- Name: noticacoes_id_usuario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.noticacoes_id_usuario_seq OWNED BY public.noticacoes.id_usuario;
-
-
---
--- Name: usuario; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.usuario (
-    id integer NOT NULL,
-    nivel smallint,
-    nome character varying(255),
-    n_identificacao bigint,
-    senha character varying(64),
-    email character varying(255)
-);
-
-
-
---
--- Name: usuario_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.usuario_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
---
--- Name: usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.usuario_id_seq OWNED BY public.usuario.id;
-
-
---
--- Name: agendamento_note id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.agendamento_note ALTER COLUMN id SET DEFAULT nextval('public.agendamento_note_id_seq'::regclass);
-
-
---
--- Name: agendamentos id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.agendamentos ALTER COLUMN id SET DEFAULT nextval('public.agendamentos_id_seq'::regclass);
-
-
---
--- Name: categoria id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.categoria ALTER COLUMN id SET DEFAULT nextval('public.categoria_id_seq'::regclass);
-
-
---
--- Name: notebooks id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.notebooks ALTER COLUMN id SET DEFAULT nextval('public.notebooks_id_seq'::regclass);
-
-
---
--- Name: noticacoes id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.noticacoes ALTER COLUMN id SET DEFAULT nextval('public.noticacoes_id_seq'::regclass);
-
-
---
--- Name: noticacoes id_usuario; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.noticacoes ALTER COLUMN id_usuario SET DEFAULT nextval('public.noticacoes_id_usuario_seq'::regclass);
-
-
---
--- Name: usuario id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.usuario ALTER COLUMN id SET DEFAULT nextval('public.usuario_id_seq'::regclass);
-
-
-
-SELECT pg_catalog.setval('public.agendamento_note_id_seq', 1, false);
-
-
---
--- Name: agendamentos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.agendamentos_id_seq', 1, false);
-
-
---
--- Name: categoria_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.categoria_id_seq', 1, false);
-
-
---
--- Name: notebooks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.notebooks_id_seq', 1, false);
-
-
---
--- Name: noticacoes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.noticacoes_id_seq', 1, false);
-
-
---
--- Name: noticacoes_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.noticacoes_id_usuario_seq', 1, false);
-
-
---
--- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.usuario_id_seq', 1, false);
-
-
---
--- Name: agendamento_note agendamento_note_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.agendamento_note
-    ADD CONSTRAINT agendamento_note_pkey PRIMARY KEY (id);
-
-
---
--- Name: agendamentos agendamentos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.agendamentos
-    ADD CONSTRAINT agendamentos_pkey PRIMARY KEY (id);
-
-
---
--- Name: categoria categoria_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.categoria
-    ADD CONSTRAINT categoria_pkey PRIMARY KEY (id);
-
-
---
--- Name: notebooks notebooks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.notebooks
-    ADD CONSTRAINT notebooks_pkey PRIMARY KEY (id);
-
-
---
--- Name: noticacoes noticacoes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.noticacoes
-    ADD CONSTRAINT noticacoes_pkey PRIMARY KEY (id_usuario);
-
-
---
--- Name: usuario usuario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.usuario
-    ADD CONSTRAINT usuario_pkey PRIMARY KEY (id);
-
-
---
--- Name: agendamento_note fk_agenda; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.agendamento_note
-    ADD CONSTRAINT fk_agenda FOREIGN KEY (id_agendamento) REFERENCES public.agendamentos(id) NOT VALID;
-
-
---
--- Name: agendamento_note fk_note; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.agendamento_note
-    ADD CONSTRAINT fk_note FOREIGN KEY (id_notebook) REFERENCES public.notebooks(id) NOT VALID;
-
-
---
--- Name: agendamentos fk_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.agendamentos
-    ADD CONSTRAINT fk_usuario FOREIGN KEY (id_usuario) REFERENCES public.usuario(id) NOT VALID;
-
-
---
--- Name: notebooks notebooks_id_categoria_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.notebooks
-    ADD CONSTRAINT notebooks_id_categoria_fkey FOREIGN KEY (id_categoria) REFERENCES public.categoria(id) NOT VALID;
-
-
---
--- Name: noticacoes noticacoes_id_usuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.noticacoes
-    ADD CONSTRAINT noticacoes_id_usuario_fkey FOREIGN KEY (id_usuario) REFERENCES public.usuario(id) NOT VALID;
-
-
---
--- PostgreSQL database dump complete
---
-

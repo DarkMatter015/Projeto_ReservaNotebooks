@@ -3,14 +3,14 @@ package reserva.notes.notes.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Agendamento_Note")
+@Table(name = "agendamento_note")
 public class ModelAgendamentoNotes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long id_agendamento;
-    private Long id_notebook;
+    private Long agendamento_id;
+    private Long notebook_id;
 
     public Long getId() {
         return id;
@@ -20,19 +20,19 @@ public class ModelAgendamentoNotes {
         this.id = id;
     }
 
-    public Long getId_agendamento() {
-        return id_agendamento;
+    public Long getAgendamento_id() {
+        return agendamento_id;
     }
 
-    public void setId_agendamento(Long id_agendamento) {
-        this.id_agendamento = id_agendamento;
+    public void setAgendamento_id(Long agendamento_id) {
+        this.agendamento_id = agendamento_id;
     }
 
-    public Long getId_notebook() {
-        return id_notebook;
+    public Long getNotebook_id() {
+        return notebook_id;
     }
 
-    public void setId_notebook(Long id_notebook) {
-        this.id_notebook = id_notebook;
+    public void setNotebook_id(Long notebook_id) {
+        this.notebook_id = notebook_id;
     }
 }
