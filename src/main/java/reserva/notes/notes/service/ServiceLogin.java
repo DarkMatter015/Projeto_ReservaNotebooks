@@ -28,12 +28,12 @@ public class ServiceLogin {
         if (opt.isPresent()) {
             return opt.get();
         } else {
-            throw new RegistroNaoEncontradoException("Estudante com id : " + id + " não existe");
+            throw new RegistroNaoEncontradoException("Usuário com id : " + id + " não existe");
         }
     }
 
     public void apagarLogin(Long id) throws RegistroNaoEncontradoException {
-        ModelLogin estudante = buscarLoginPorId(id);
-        repoLogin.delete(estudante);
+        ModelLogin login  = buscarLoginPorId(id);
+        repoLogin.delete(login);
     }
 }
