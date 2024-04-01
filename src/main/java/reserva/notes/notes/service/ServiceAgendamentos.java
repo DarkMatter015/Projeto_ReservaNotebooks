@@ -18,9 +18,6 @@ public class ServiceAgendamentos {
     public List<ModelAgendamentos> listarAgendamentos(){
         return repoAgendamentos.findAll();
     }
-    public void apagarAgendamentos(ModelAgendamentos agendamentos){
-        repoAgendamentos.delete(agendamentos);
-    }
 
     public ModelAgendamentos buscarAgendamentosPorId(Long id)throws RegistroNaoEncontradoException {
         Optional<ModelAgendamentos> opt = repoAgendamentos.findById(id);
