@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import reserva.notes.notes.model.ModelNotebook;
 
 @Repository
-public interface RepoNotebooks extends JpaRepository<ModelNotebook, Long> {
+public interface RepoNotebook extends JpaRepository<ModelNotebook, Long> {
 }
