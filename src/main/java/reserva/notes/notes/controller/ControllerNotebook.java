@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/notebook")
-public class ControlerNotebook {
+public class ControllerNotebook {
 
     @Autowired
     ServiceNotebook notebookServico;
