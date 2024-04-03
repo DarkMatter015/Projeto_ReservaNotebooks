@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "agendamento_note")
-public class ModelAgendamentoNotes {
+public class ModelAgendamentoNote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

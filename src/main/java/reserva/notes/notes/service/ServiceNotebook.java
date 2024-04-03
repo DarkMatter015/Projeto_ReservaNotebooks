@@ -3,27 +3,27 @@ package reserva.notes.notes.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reserva.notes.notes.exception.RegistroNaoEncontradoException;
-import reserva.notes.notes.model.ModelNotebooks;
+import reserva.notes.notes.model.ModelNotebook;
 import reserva.notes.notes.repo.RepoNotebooks;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ServiceNotebooks {
+public class ServiceNotebook {
     @Autowired
     private RepoNotebooks repoNotebooks;
 
-    public ModelNotebooks salvarNotebook(ModelNotebooks notebook){
+    public ModelNotebook salvarNotebook(ModelNotebook notebook){
         return repoNotebooks.save(notebook);
     }
 
-    public List<ModelNotebooks> listarNotebooks(){
+    public List<ModelNotebook> listarNotebooks(){
         return repoNotebooks.findAll();
     }
 
-    public ModelNotebooks buscarNotebookPorId(Long id)throws RegistroNaoEncontradoException {
-        Optional<ModelNotebooks> opt = repoNotebooks.findById(id);
+    public ModelNotebook buscarNotebookPorId(Long id)throws RegistroNaoEncontradoException {
+        Optional<ModelNotebook> opt = repoNotebooks.findById(id);
         if (opt.isPresent()) {
             return opt.get();
         } else {
@@ -32,7 +32,7 @@ public class ServiceNotebooks {
     }
 
     public void apagarNotebook(Long id) throws RegistroNaoEncontradoException {
-        ModelNotebooks notebook = buscarNotebookPorId(id);
+        ModelNotebook notebook = buscarNotebookPorId(id);
         repoNotebooks.delete(notebook);
     }
 

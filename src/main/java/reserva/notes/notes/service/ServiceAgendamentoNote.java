@@ -3,28 +3,27 @@ package reserva.notes.notes.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reserva.notes.notes.exception.RegistroNaoEncontradoException;
-import reserva.notes.notes.model.ModelAgendamentoNotes;
-import reserva.notes.notes.model.ModelNotebooks;
+import reserva.notes.notes.model.ModelAgendamentoNote;
 import reserva.notes.notes.repo.RepoAgendamentoNotes;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ServiceAgendamentoNotes {
+public class ServiceAgendamentoNote {
 @Autowired
     private RepoAgendamentoNotes repoAgendamentoNotes;
 
-    public ModelAgendamentoNotes salvarAgendamentoNotes(ModelAgendamentoNotes agendamentoNotes){
+    public ModelAgendamentoNote salvarAgendamentoNotes(ModelAgendamentoNote agendamentoNotes){
         return repoAgendamentoNotes.save(agendamentoNotes);
 
     }
-    public List<ModelAgendamentoNotes> listarAgendamentoNotes(){
+    public List<ModelAgendamentoNote> listarAgendamentoNotes(){
         return repoAgendamentoNotes.findAll();
     }
 
-    public ModelAgendamentoNotes buscarAgendamentoNotesPorId(Long id) throws RegistroNaoEncontradoException{
-        Optional<ModelAgendamentoNotes> opt = repoAgendamentoNotes.findById(id);
+    public ModelAgendamentoNote buscarAgendamentoNotesPorId(Long id) throws RegistroNaoEncontradoException{
+        Optional<ModelAgendamentoNote> opt = repoAgendamentoNotes.findById(id);
         if (opt.isPresent()){
             return opt.get();
         }else {
@@ -33,7 +32,7 @@ public class ServiceAgendamentoNotes {
     }
 
     public void apagarAgendamentoNotes(Long id) throws RegistroNaoEncontradoException{
-        ModelAgendamentoNotes agendamentoNotes = buscarAgendamentoNotesPorId(id);
+        ModelAgendamentoNote agendamentoNotes = buscarAgendamentoNotesPorId(id);
         repoAgendamentoNotes.delete(agendamentoNotes);
     }
 }

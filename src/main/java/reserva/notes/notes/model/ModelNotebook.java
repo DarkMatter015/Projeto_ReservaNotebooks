@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "notebook")
-public class ModelNotebooks {
+public class ModelNotebook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
