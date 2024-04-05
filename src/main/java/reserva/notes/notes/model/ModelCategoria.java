@@ -18,6 +18,8 @@ public class ModelCategoria {
 
     private int quantidade;
 
+    private String softwares;
+
     public Long getId() {
         return id;
     }
@@ -48,5 +50,13 @@ public class ModelCategoria {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public String getSoftwares() {
+        return softwares;
+    }
+
+    public void setSoftwares(String softwares) {
+        this.softwares = softwares;
     }
 }
