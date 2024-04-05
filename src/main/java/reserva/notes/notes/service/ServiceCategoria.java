@@ -20,7 +20,7 @@ public class ServiceCategoria {
         return repoCategoria.save(categoria);
     }
 
-    public List<ModelCategoria> listarCategoria(){
+    public List<ModelCategoria> listarCategorias(){
         return repoCategoria.findAll();
     }
 
