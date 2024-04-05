@@ -19,7 +19,7 @@ public class ModelLogin {
         return nome;
     }
 
-    public void setNssome(String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
