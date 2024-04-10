@@ -22,6 +22,10 @@ public class ControllerLogin {
     @Autowired
     ServiceLogin serviceLogin;
 
+    @GetMapping("/")
+    public String getLogin(){
+        return "index";
+    }
     @PostMapping("/")
     public String validaLogin(@RequestParam("matricula") String matricula, @RequestParam("senha") String senha,
                               Model model, HttpSession session){
@@ -29,7 +33,7 @@ public class ControllerLogin {
         session.setAttribute("usuario", ServiceLogin.validaLogin(matricula, senha));
 
         if (session.getAttribute("usuario") != null) {
-            return "redirect:/lista-login";
+            return "redirect:/usuario/";
         } else {
             model.addAttribute("error", "Credenciais inválidas. Por favor, tente novamente.");
             return "/index";
@@ -45,8 +49,8 @@ public class ControllerLogin {
 
     @GetMapping("/usuario/novo")
     public String novoLogin(Model model) {
-        ModelLogin usuario = new ModelLogin();
-        model.addAttribute("objetoUsuario",usuario);
+        ModelLogin login = new ModelLogin();
+        model.addAttribute("objetoLogin",login);
         return "/edita-login";
     }
 

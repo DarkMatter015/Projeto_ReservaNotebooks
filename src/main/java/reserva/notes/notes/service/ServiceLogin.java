@@ -15,12 +15,22 @@ import java.util.Optional;
 public class ServiceLogin {
     @Autowired
     private static RepoLogin repoLogin;
+
+    @Autowired
+    private ServiceEnvioEmail envioEmail;
+
     public ServiceLogin(RepoLogin repoLogin){
         this.repoLogin = repoLogin;
     }
 
     public ModelLogin salvarLogin(ModelLogin login) {
-        return repoLogin.save(login);
+        login.setSenha(ServiceGeradorSenha.gerarSenha(5, 3, 1));
+        ModelLogin retorno = repoLogin.save(login);
+
+        envioEmail.enviarEmail(login.getEmail(), "Conta usuario RESERVA NOTEBOOK", "Seu usuário é "
+                + login.getMatricula() + " e sua senha é " + login.getSenha());
+
+        return retorno;
     }
 
     public List<ModelLogin> listarLogin() {
