@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import reserva.notes.notes.exception.RegistroNaoEncontradoException;
 import reserva.notes.notes.model.ModelNotebook;
+import reserva.notes.notes.service.ServiceCategoria;
 import reserva.notes.notes.service.ServiceNotebook;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class ControllerNotebook {
 
     @Autowired
     ServiceNotebook notebookServico;
+    ServiceCategoria serviceCategoria = new ServiceCategoria();
 
     @GetMapping("/")
     public String listarNotebooks(Model model) {
@@ -35,11 +37,11 @@ public class ControllerNotebook {
     }
 
     @PostMapping("/gravar")
-    public String gravarNotebook(@ModelAttribute("novoNotebook") @Valid ModelNotebook notebook,
+    public String gravarNotebook(@ModelAttribute("objetoNotebook") @Valid ModelNotebook notebook,
                                   BindingResult erros,
                                   RedirectAttributes attributes) {
         if(erros.hasErrors()) {
-            return "/novo-notebook";
+            return "/edita-notebook";
         }
         notebookServico.salvarNotebook(notebook);
         attributes.addFlashAttribute("mensagem", "Notebook salvo com sucesso!");
@@ -63,20 +65,20 @@ public class ControllerNotebook {
         try {
             ModelNotebook notebook = notebookServico.buscarNotebookPorId(id);
             model.addAttribute("objetoNotebook", notebook);
-            return "/alterar-notebook";
+            model.addAttribute("categorias", serviceCategoria.listarCategorias());
+            return "/edita-notebook";
         } catch (RegistroNaoEncontradoException e) {
             attributes.addFlashAttribute("mensagemErro", e.getMessage());
         }
         return "redirect:/";
     }
-
     @PostMapping("/editar/{id}")
     public String editarNotebook(@PathVariable("id") long id,
                                   @ModelAttribute("objetoNotebook") @Valid ModelNotebook notebook,
                                   BindingResult erros) {
         if (erros.hasErrors()) {
             notebook.setId(id);
-            return "/alterar-notebook";
+            return "/edita-notebook";
         }
         notebookServico.salvarNotebook(notebook);
         return "redirect:/";

@@ -23,7 +23,7 @@
 <div class="container">
     <div class="row" style="padding-bottom: 30px;">
         <div class="col">
-            <a th:href="@{/novo}" class="btn btn-primary">Novo Notebook</a>
+            <a th:href="@{/notebook/novo}" class="btn btn-primary">Novo Notebook</a>
         </div>
     </div>
 
@@ -37,8 +37,9 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th>Nome</th>
-                <th>Idade</th>
+                <th>Número</th>
+                <th>Patrimônio</th>
+                <th>Categoria</th>
                 <th>Ações</th>
             </tr>
             </thead>
@@ -49,10 +50,11 @@
             <tr th:each="Notebook : ${listaNotebooks}">
                 <td><span th:text="${Notebook.id}"></span></td>
                 <td><span th:text="${Notebook.numero}"></span></td>
+                <td><span th:text="${Notebook.categoria}"></span></td>
                 <td><span th:text="${Notebook.patrimonio}"></span></td>
                 <td><a class="fa-regular fa-trash-can icon-dark btn-delete"
                        th:href="@{/apagar/{id}(id=${Notebook.id})}"
-                       th:data-confirm-delete="|Você gostaria de apagar ${Notebook.nome}?|"
+                       th:data-confirm-delete="|Você gostaria de apagar o Notebook de número ${Notebook.numero}?|"
                        th:onclick="if (!confirm(this.getAttribute('data-confirm-delete')))
 										      return false">
 
