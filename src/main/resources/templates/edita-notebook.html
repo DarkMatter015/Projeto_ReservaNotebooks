@@ -27,7 +27,7 @@
 <div class="container">
     <div class="row" style="padding-bottom: 30px;">
         <div class="col">
-            <h2 th:text="${objetoNotebook != null ? 'Editar Notebook' : 'Cadastro de Notebook'}"></h2>
+            <h2 th:text="${objetoNotebook.id != null ? 'Editar Notebook' : 'Cadastro de Notebook'}"></h2>
             </h2>
             <a th:href="@{/}" class="btn btn-primary">Voltar</a>
             <div class="alert alert-success alert-dismissible fade show"
@@ -40,7 +40,7 @@
                 <div class="row mb-3">
                     <label class="col-sm-1 col-form-label">Numero:</label>
                     <div class="col-sm-5">
-                        <input class="form-control" type="text" th:field="*{numero}">
+                        <input class="form-control" type="number" th:field="*{numero}">
                     </div>
                     <div class="col-sm-5">
 							<span class="mensagem" th:if="${#fields.hasErrors('numero')}"
