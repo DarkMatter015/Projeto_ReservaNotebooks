@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import reserva.notes.notes.exception.RegistroNaoEncontradoException;
+import reserva.notes.notes.model.ModelCategoria;
 import reserva.notes.notes.model.ModelNotebook;
 import reserva.notes.notes.service.ServiceCategoria;
 import reserva.notes.notes.service.ServiceNotebook;
@@ -20,7 +21,8 @@ public class ControllerNotebook {
 
     @Autowired
     ServiceNotebook notebookServico;
-    ServiceCategoria serviceCategoria = new ServiceCategoria();
+    @Autowired
+    ServiceCategoria serviceCategoria;
 
     @GetMapping("/")
     public String listarNotebooks(Model model) {
@@ -33,6 +35,8 @@ public class ControllerNotebook {
     public String novoNotebook(Model model) {
         ModelNotebook notebook = new ModelNotebook();
         model.addAttribute("objetoNotebook",notebook);
+        List<ModelCategoria> categoria = serviceCategoria.listarCategorias();
+        model.addAttribute("objetoCategoria",categoria);
         return "/edita-notebook";
     }
 
@@ -45,7 +49,7 @@ public class ControllerNotebook {
         }
         notebookServico.salvarNotebook(notebook);
         attributes.addFlashAttribute("mensagem", "Notebook salvo com sucesso!");
-        return "redirect:/novo";
+        return "redirect:/notebook/novo";
     }
 
     @GetMapping("/apagar/{id}")

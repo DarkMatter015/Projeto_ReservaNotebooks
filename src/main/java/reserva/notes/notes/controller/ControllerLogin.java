@@ -33,14 +33,14 @@ public class ControllerLogin {
         session.setAttribute("usuario", ServiceLogin.validaLogin(matricula, senha));
 
         if (session.getAttribute("usuario") != null) {
-            return "redirect:/usuario/";
+            return "redirect:/usuario";
         } else {
             model.addAttribute("error", "Credenciais inválidas. Por favor, tente novamente.");
             return "/index";
         }
     }
 
-    @GetMapping("/usuario/")
+    @GetMapping("/usuario")
     public String listarLogin(Model model) {
         List<ModelLogin> usuario = serviceLogin.listarLogin();
         model.addAttribute("listaUsuarios",usuario);
