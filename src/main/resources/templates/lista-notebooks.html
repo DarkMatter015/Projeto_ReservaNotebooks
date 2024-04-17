@@ -51,7 +51,7 @@
                 <td><span th:text="${Notebook.id}"></span></td>
                 <td><span th:text="${Notebook.numero}"></span></td>
                 <td><span th:text="${Notebook.patrimonio}"></span></td>
-                <td><span th:text="${Notebook.categoria_id}"></span></td>
+                <td><span th:text="${Notebook.categoria.nome}"></span></td>
                 <td><a class="fa-regular fa-trash-can icon-dark btn-delete"
                        th:href="@{/apagar/{id}(id=${Notebook.id})}"
                        th:data-confirm-delete="|Você gostaria de apagar o Notebook de número ${Notebook.numero}?|"
