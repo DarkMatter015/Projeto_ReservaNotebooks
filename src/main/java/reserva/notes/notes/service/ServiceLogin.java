@@ -2,6 +2,7 @@ package reserva.notes.notes.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reserva.notes.notes.exception.RegistroNaoEncontradoException;
 import reserva.notes.notes.model.ModelLogin;
@@ -13,14 +14,31 @@ import java.util.Optional;
 @Service
 public class ServiceLogin {
     @Autowired
-    private RepoLogin repoLogin;
+    private static RepoLogin repoLogin;
+
+    @Autowired
+    private ServiceEnvioEmail envioEmail;
+
+    public ServiceLogin(RepoLogin repoLogin){
+        this.repoLogin = repoLogin;
+    }
 
     public ModelLogin salvarLogin(ModelLogin login) {
-        return repoLogin.save(login);
+        login.setSenha(ServiceGeradorSenha.gerarSenha(5, 3, 1));
+        ModelLogin retorno = repoLogin.save(login);
+
+        envioEmail.enviarEmail(login.getEmail(), "Conta usuario RESERVA NOTEBOOK", "Seu usuário é "
+                + login.getMatricula() + " e sua senha é " + login.getSenha());
+
+        return retorno;
     }
 
     public List<ModelLogin> listarLogin() {
-        return repoLogin.findAll();
+        return repoLogin.findAll(Sort.by("id"));
+    }
+
+    public  static ModelLogin validaLogin(String matricula, String senha){
+        return repoLogin.validaLogin(Integer.parseInt(matricula), senha);
     }
 
     public ModelLogin buscarLoginPorId(Long id) throws RegistroNaoEncontradoException {
