@@ -2,6 +2,7 @@ package reserva.notes.notes.model;
 
 import jakarta.persistence.*;
 
+
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
