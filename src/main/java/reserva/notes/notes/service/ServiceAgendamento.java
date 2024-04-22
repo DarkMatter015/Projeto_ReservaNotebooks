@@ -19,7 +19,7 @@ public class ServiceAgendamento {
         return repoAgendamento.findAll();
     }
 
-    public ModelAgendamento buscarAgendamentosPorId(Long id)throws RegistroNaoEncontradoException {
+    public ModelAgendamento buscarAgendamentoPorId(Long id)throws RegistroNaoEncontradoException {
         Optional<ModelAgendamento> opt = repoAgendamento.findById(id);
         if (opt.isPresent()) {
             return opt.get();
@@ -28,9 +28,14 @@ public class ServiceAgendamento {
         }
     }
 
-    public void apagarAgendamentos(Long id) throws RegistroNaoEncontradoException {
-        ModelAgendamento agendamento = buscarAgendamentosPorId(id);
+    public void apagarAgendamento(Long id) throws RegistroNaoEncontradoException {
+        ModelAgendamento agendamento = buscarAgendamentoPorId(id);
         repoAgendamento.delete(agendamento);
+    }
+
+
+    public ModelAgendamento salvarAgendamento(ModelAgendamento agendamento){
+        return repoAgendamento.save(agendamento);
     }
 
 }
