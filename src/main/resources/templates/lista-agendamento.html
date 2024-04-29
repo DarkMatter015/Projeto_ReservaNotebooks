@@ -23,7 +23,7 @@
 <div class="container">
     <div class="row" style="padding-bottom: 30px;">
         <div class="col">
-            <a th:href="@{/novo}" class="btn btn-primary">Novo Notebook</a>
+            <a th:href="@{/novo}" class="btn btn-primary">Novo Agendamento</a>
         </div>
     </div>
 
@@ -36,15 +36,17 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Id</th>
-                <th>Nome</th>
-                <th>Idade</th>
-                <th>Ações</th>
+                <th>Usuario</th>
+                <th>Data Agendada</th>
+                <th>Hora Retirada</th>
+                <th>Hora Devolvida</th>
+                <th>Turno</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody>
             <tr th:if="${listaAgendamento.empty}">
-                <td colspan="3">Não existem notebooks.</td>
+                <td colspan="3">Não existem agendamentos.</td>
             </tr>
             <tr th:each="Notebook : ${listaNotebooks}">
                 <td><span th:text="${Notebook.id}"></span></td>
