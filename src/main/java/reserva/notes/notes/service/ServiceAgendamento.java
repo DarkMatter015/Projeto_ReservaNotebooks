@@ -1,6 +1,7 @@
 package reserva.notes.notes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import reserva.notes.notes.exception.RegistroNaoEncontradoException;
 import reserva.notes.notes.model.ModelAgendamento;
@@ -17,6 +18,10 @@ public class ServiceAgendamento {
     }
     public List<ModelAgendamento> listarAgendamentos(){
         return repoAgendamento.findAll();
+    }
+
+    public List<ModelAgendamento> listaManha(){
+        return (List<ModelAgendamento>) repoAgendamento.lista("06:00", "12:00");
     }
 
     public ModelAgendamento buscarAgendamentoPorId(Long id)throws RegistroNaoEncontradoException {

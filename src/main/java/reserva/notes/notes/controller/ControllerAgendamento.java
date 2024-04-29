@@ -25,6 +25,14 @@ public class ControllerAgendamento {
         model.addAttribute("listaAgendamento",agendamento);
         return "/lista-agendamento";
     }
+
+    @PostMapping("/lista")
+    public String agendamentosManha(Model model) {
+        List<ModelAgendamento> agendamento = agendamentoServico.listarAgendamentos();
+        model.addAttribute("listaAgendamento",agendamento);
+        return "/agendamentos";
+    }
+
     @GetMapping("/novo")
     public String novoAgendamento(Model model) {
         ModelAgendamento agendamento = new ModelAgendamento();

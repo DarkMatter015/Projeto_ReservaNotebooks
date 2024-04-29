@@ -1,0 +1,107 @@
+<div class="row">
+    <div class="col-sm-6">
+        <div class="box-calendario">
+            <div class="cabecalho-calendario d-flex align-items-center justify-content-between">
+                <div id="previous-month" class="text-end"><i class="fa-solid fa-angles-left arrow"></i></div>
+                <div class="text-center">
+                    <h1 id="mes" class="texto-cabecalho-calendario"></h1>
+                    <h1 id="ano" class="texto-cabecalho-calendario"></h1>
+                </div>
+                <div id="next-month" class="text-start"><i class="fa-solid fa-angles-right arrow"></i></div>
+            </div>
+            <div class="corpo-calendario">
+                <table class="table table-bordered text-center">
+                    <thead class="table-dark">
+                    <th>Dom</th>
+                    <th>Seg</th>
+                    <th>Ter</th>
+                    <th>Qua</th>
+                    <th>Qui</th>
+                    <th>Sex</th>
+                    <th>Sáb</th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="ring-container">
+                    <div class="ring-left"></div>
+                </div>
+                <div class="ring-container">
+                    <div class="ring-right"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6" style="background: #fafafa; height: 74.3vh; border-radius: 0.8em; overflow-y: auto;">
+        <div class="row sticky-top" style="background: #fafafa; border-bottom: 1px solid #ced4da;">
+            <div class="col-sm-10">
+                <h4 class="text-center mt-1 mb-0">Lista Agendamentos <span id="data"></span></h4>
+            </div>
+            <div class="col-sm-2 mt-1 mb-1 text-end">
+                <a id="addAtividade" class="btnModal btn btn-sm btn-primary"><i class="fa-solid fa-plus"></i></a>
+            </div>
+        </div>
+        <div class="row" id="listaAtividades">
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modalAtividade" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Adicionar Agendamento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div hidden>
+                    <input type="text" hidden disabled id="idAtividade"/>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="lbTalhao"><i class="fa-solid fa-road"></i></span>
+                            <input id="talhao" class="form-control" list="talhoes" aria-describedby="lbTalhao" placeholder="Talhão">
+                            <datalist id="talhoes">
+                                <option th:each="talhao : ${talhoes}" th:data-value="${talhao.id}" th:text="${talhao.nome}"></option>
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="lbCultura"><i class="fa-solid fa-road"></i></span>
+                            <input id="cultura" class="form-control" list="culturas" aria-describedby="lbCultura" placeholder="Cultura">
+                            <datalist id="culturas">
+                                <option th:each="cultura : ${culturas}" th:data-value="${cultura.id}" th:text="${cultura.nome}"></option>
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="lbMaoObra">R$</span>
+                            <input type="number" id="maoObra" class="form-control" placeholder="Custo R$" aria-describedby="lbMaoObra">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="lbReceita">R$</span>
+                            <input type="number" id="receita" class="form-control" placeholder="Receita R$" aria-describedby="lbReceita">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <textarea class="form-control" placeholder="Descrição" id="descricao" style="height: 100px"></textarea>
+                            <label for="descricao">Descrição</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" id="salvarAtividade" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
