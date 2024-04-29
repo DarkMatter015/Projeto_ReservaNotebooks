@@ -2,12 +2,10 @@ package reserva.notes.notes.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import reserva.notes.notes.exception.RegistroNaoEncontradoException;
 import reserva.notes.notes.model.ModelAgendamento;
@@ -15,15 +13,15 @@ import reserva.notes.notes.service.ServiceAgendamento;
 
 import java.util.List;
 
+@Controller
+@RequestMapping("/agendamento")
 public class ControllerAgendamento {
     @Autowired
     ServiceAgendamento agendamentoServico;
-    @Autowired
-    ServiceAgendamento agendamentoService;
 
     @GetMapping("/")
     public String listarAgendamento(Model model) {
-        List<ModelAgendamento> agendamento = agendamentoService.listarAgendamentos();
+        List<ModelAgendamento> agendamento = agendamentoServico.listarAgendamentos();
         model.addAttribute("listaAgendamento",agendamento);
         return "/lista-agendamento";
     }
@@ -39,11 +37,11 @@ public class ControllerAgendamento {
                                  BindingResult erros,
                                  RedirectAttributes attributes) {
         if(erros.hasErrors()) {
-            return "/novo-agendamento";
+            return "/edita-agendamento";
         }
-        agendamentoService.salvarAgendamento(agendamento);
+        agendamentoServico.salvarAgendamento(agendamento);
         attributes.addFlashAttribute("mensagem", "Agendamento salvo com sucesso!");
-        return "redirect:/novo";
+        return "redirect:/";
     }
 
     @GetMapping("/apagar/{id}")
@@ -61,7 +59,7 @@ public class ControllerAgendamento {
         try {
             ModelAgendamento agendamento = agendamentoServico.buscarAgendamentoPorId(id);
             model.addAttribute("objetoAgendamento", agendamento);
-            return "/alterar-agendamento";
+            return "/edita-agendamento";
         } catch (RegistroNaoEncontradoException e) {
             attributes.addFlashAttribute("mensagemErro", e.getMessage());
         }
@@ -74,7 +72,7 @@ public class ControllerAgendamento {
                                  BindingResult erros) {
         if (erros.hasErrors()) {
             agendamento.setId(id);
-            return "/alterar-agendamento";
+            return "/edita-agendamento";
         }
         agendamentoServico.salvarAgendamento(agendamento);
         return "redirect:/";
