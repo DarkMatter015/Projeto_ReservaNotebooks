@@ -14,7 +14,9 @@ public class ModelAgendamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long usuario_id;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private ModelLogin usuario;
 
     private Date data_agendada;
 
@@ -44,12 +46,12 @@ public class ModelAgendamento {
         this.id = id;
     }
 
-    public Long getUsuario_id() {
-        return usuario_id;
+    public ModelLogin getUsuario_id() {
+        return usuario;
     }
 
-    public void setUsuario_id(Long usuario_id) {
-        this.usuario_id = usuario_id;
+    public void setUsuario_id(ModelLogin usuario_id) {
+        this.usuario = usuario_id;
     }
 
     public Date getData_agendada() {

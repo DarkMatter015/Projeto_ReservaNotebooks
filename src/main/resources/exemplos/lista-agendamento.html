@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Agendamentos para <span th:text="${#dates.format(data, 'dd/MM/yyyy')}"></span></h1>
+        <form th:action="@{/agenda/}" method="post">
+            <div>
+                <label>Data:</label>
+                <input type="date" th:value="${data}" name="data"/>
+            </div>
+            <div>
+                <button type="submit" class="button">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="container">
+        <ul th:each="agendamento : ${listaAgendamento}">
+            <li th:text="${agendamento.id}"></li>
+        </ul>
+    </div>
+</body>
+</html>
